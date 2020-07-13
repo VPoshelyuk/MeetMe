@@ -15,7 +15,7 @@ struct ImagePicker: View {
     var body: some View {
         Button(action: {self.isPresented.toggle()}){
             ZStack {
-                Text("Edit")
+                Text("Choose...")
                 .zIndex(1)
                 Image(uiImage: pickedImage)
                 .renderingMode(.original)
