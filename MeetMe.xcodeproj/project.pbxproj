@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E716F4EE24BBCA0E00902AF5 /* NetworkAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4ED24BBCA0E00902AF5 /* NetworkAgent.swift */; };
+		E716F4F024BBCA8100902AF5 /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4EF24BBCA8100902AF5 /* CardData.swift */; };
+		E716F4F224BBCD8300902AF5 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4F124BBCD8300902AF5 /* UserData.swift */; };
+		E716F4F424BBD4F800902AF5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4F324BBD4F800902AF5 /* SignUpView.swift */; };
+		E716F4F624BBD74400902AF5 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4F524BBD74400902AF5 /* ImagePicker.swift */; };
 		E7C0ECBB24BAC95B00B68EDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBA24BAC95B00B68EDD /* AppDelegate.swift */; };
 		E7C0ECBD24BAC95B00B68EDD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBC24BAC95B00B68EDD /* SceneDelegate.swift */; };
 		E7C0ECBF24BAC95B00B68EDD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBE24BAC95B00B68EDD /* ContentView.swift */; };
@@ -19,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E716F4ED24BBCA0E00902AF5 /* NetworkAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAgent.swift; sourceTree = "<group>"; };
+		E716F4EF24BBCA8100902AF5 /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
+		E716F4F124BBCD8300902AF5 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		E716F4F324BBD4F800902AF5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		E716F4F524BBD74400902AF5 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		E7C0ECB724BAC95B00B68EDD /* MeetMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeetMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C0ECBA24BAC95B00B68EDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C0ECBC24BAC95B00B68EDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +53,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E716F4EC24BBC9F500902AF5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E716F4ED24BBCA0E00902AF5 /* NetworkAgent.swift */,
+				E716F4EF24BBCA8100902AF5 /* CardData.swift */,
+				E716F4F124BBCD8300902AF5 /* UserData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		E7C0ECAE24BAC95B00B68EDD = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +82,7 @@
 		E7C0ECB924BAC95B00B68EDD /* MeetMe */ = {
 			isa = PBXGroup;
 			children = (
+				E716F4EC24BBC9F500902AF5 /* Models */,
 				E7C0ECCE24BACEC300B68EDD /* Views */,
 				E7C0ECBA24BAC95B00B68EDD /* AppDelegate.swift */,
 				E7C0ECBC24BAC95B00B68EDD /* SceneDelegate.swift */,
@@ -88,6 +109,8 @@
 				E7C0ECD124BAF5DA00B68EDD /* DetailView.swift */,
 				E7C0ECD224BAF5DA00B68EDD /* WebView.swift */,
 				E7C0ECCF24BACEE500B68EDD /* SegmentedControlView.swift */,
+				E716F4F324BBD4F800902AF5 /* SignUpView.swift */,
+				E716F4F524BBD74400902AF5 /* ImagePicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,8 +189,13 @@
 				E7C0ECBB24BAC95B00B68EDD /* AppDelegate.swift in Sources */,
 				E7C0ECD024BACEE500B68EDD /* SegmentedControlView.swift in Sources */,
 				E7C0ECBD24BAC95B00B68EDD /* SceneDelegate.swift in Sources */,
+				E716F4F224BBCD8300902AF5 /* UserData.swift in Sources */,
 				E7C0ECD424BAF5DB00B68EDD /* WebView.swift in Sources */,
 				E7C0ECD324BAF5DB00B68EDD /* DetailView.swift in Sources */,
+				E716F4F424BBD4F800902AF5 /* SignUpView.swift in Sources */,
+				E716F4F624BBD74400902AF5 /* ImagePicker.swift in Sources */,
+				E716F4F024BBCA8100902AF5 /* CardData.swift in Sources */,
+				E716F4EE24BBCA0E00902AF5 /* NetworkAgent.swift in Sources */,
 				E7C0ECBF24BAC95B00B68EDD /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

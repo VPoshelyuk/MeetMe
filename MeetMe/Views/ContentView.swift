@@ -23,7 +23,6 @@ struct ContentView: View {
     @State var presentingModal = false
     @State private var activeSheet: ActiveSheet? = nil
     @State var link = ""
-    var links = ["https://www.facebook.com/slava.poshelyk", "https://twitter.com/SPoshelyk", "https://www.linkedin.com/in/viachaslau-pashaliuk/", "https://github.com/VPoshelyuk/", "https://www.linkedin.com/in/viachaslau-pashaliuk/"]
     @State private var selected = 1
     var body: some View {
         VStack {
