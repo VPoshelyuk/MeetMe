@@ -25,7 +25,7 @@ struct SignUpView: View {
     let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
     
     var body: some View {
-        ScrollView{
+        ScrollView(showsIndicators: false){
             VStack {
                 HStack{
                     Text("Welcome to MeetMe! \nYou are on your way to sign up! Please start by choosing your picture:")
@@ -39,9 +39,14 @@ struct SignUpView: View {
                 }
                 TextView(text: $about, placeholder: "About")
                     .frame(width: UIScreen.main.bounds.width - 50, height: 300)
-                Button(action: {}){
+                Button(action: {
+                    print("Form submitted!", self.fields)
+                }){
                     Text("Done")
-            
+                        .foregroundColor(.white)
+                        .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                        .background(Color("textViewColor"))
+                        .clipShape(Capsule())
                 }
             }.padding()
         }
@@ -67,7 +72,7 @@ struct TextView: UIViewRepresentable {
         textView.isUserInteractionEnabled = true
         textView.delegate = context.coordinator
         textView.textColor = UIColor.tertiaryLabel
-        textView.layer.borderColor = UIColor(named: "textViewColor")!.cgColor
+        textView.layer.borderColor = UIColor(named: "textViewColor")?.cgColor
         textView.layer.borderWidth = 1.2
         textView.layer.cornerRadius = 20
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
@@ -94,7 +99,7 @@ struct TextView: UIViewRepresentable {
 
         func textViewDidChange(_ textView: UITextView) {
             if let str = textView.text, str.count == placeholder.count + 1, str.substring(fromIndex: 1) == placeholder{
-                textView.textColor = .black
+                textView.textColor = UIColor.label
                 textView.text = String(str[0])
             }
             if (textView.text == "")
