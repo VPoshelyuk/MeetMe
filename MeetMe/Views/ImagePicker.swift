@@ -11,27 +11,30 @@ import SwiftUI
 struct ImagePicker: View {
     @State private var isPresented = false
     @State var pickedImage = UIImage()
+    @State private var imagePicked = false
     
     var body: some View {
         Button(action: {self.isPresented.toggle()}){
             ZStack {
-                Text("Choose...")
+                Text(!imagePicked ? "Choose..." : "Update")
                 .zIndex(1)
                 Image(uiImage: pickedImage)
                 .renderingMode(.original)
                 .resizable()
-                .frame(width: 200, height: 200)
+                .aspectRatio(contentMode: .fill) //update with framework
+                .frame(width: 150, height: 150)
                 .clipShape(Circle())
-                .overlay(Circle().strokeBorder(Color.gray, lineWidth: 3))
+                    .overlay(Circle().strokeBorder(isPresented ? .orange : Color("textViewColor"), lineWidth: 1.2))
             }
         }
-        .sheet(isPresented: $isPresented, content: { ImagePickerView(isPresented: self.$isPresented, pickedImage: self.$pickedImage) })
+        .sheet(isPresented: $isPresented, content: { ImagePickerView(isPresented: self.$isPresented, pickedImage: self.$pickedImage, imagePicked: self.$imagePicked) })
     }
 }
 
 struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
     @Binding var pickedImage: UIImage
+    @Binding  var imagePicked: Bool
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
         let tvC = UIImagePickerController()
@@ -40,20 +43,23 @@ struct ImagePickerView: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> ImagePickerView.Coordinator {
-        return Coordinator(isPresented: $isPresented, pickedImage: $pickedImage)
+        return Coordinator(isPresented: $isPresented, pickedImage: $pickedImage, imagePicked: $imagePicked)
     }
     
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         @Binding var isPresented: Bool
         @Binding var pickedImage: UIImage
+        @Binding  var imagePicked: Bool
         
-        init(isPresented: Binding<Bool>, pickedImage: Binding<UIImage>) {
+        init(isPresented: Binding<Bool>, pickedImage: Binding<UIImage>, imagePicked: Binding<Bool>) {
             _isPresented = isPresented
             _pickedImage = pickedImage
+            _imagePicked = imagePicked
         }
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let selected = info[.originalImage] as? UIImage {
                 pickedImage = selected
+                imagePicked = true
                 isPresented = false
             }
         }

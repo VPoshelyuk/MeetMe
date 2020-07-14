@@ -9,34 +9,45 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State private var full_name = ""
-    @State private var email = ""
-    @State private var phone_number = ""
-    @State private var location = ""
-    @State private var linkedin_link = ""
-    @State private var twitter_link = ""
-    @State private var facebook_link = ""
-    @State private var portfolio_link = ""
+//    @State var full_name = ""
+//    @State private var email = ""
+//    @State private var phone_number = ""
+//    @State private var location = ""
+//    @State private var linkedin_link = ""
+//    @State private var twitter_link = ""
+//    @State private var facebook_link = ""
+//    @State private var portfolio_link = ""
+    @State private var fields = Array<String>.init(repeating: "", count: 8)
     @State var about = ""
     
+    @State private var editing = false
+    
+    let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
+    
     var body: some View {
-        VStack{
-            Text("Look: \($about.wrappedValue)")
+        ScrollView{
             VStack {
-                ImagePicker()
-                TextField("Full Name", text: $full_name)
-                TextField("E-Mail", text: $email)
-                TextField("Phone #", text: $phone_number)
-                TextField("Location", text: $location)
-                TextField("LinkedIn", text: $linkedin_link)
-                TextField("Twitter", text: $twitter_link)
-                TextField("Facebook", text: $facebook_link)
-                TextField("Portfolio", text: $portfolio_link)
+                HStack{
+                    Text("Welcome to MeetMe! \nYou are on your way to sign up! Please start by choosing your picture:")
+                    .frame(width: (UIScreen.main.bounds.width - 50)/2)
+                    Spacer()
+                    ImagePicker()
+                }
+                .frame(width: UIScreen.main.bounds.width - 50)
+                ForEach(0..<fieldNames.count, id: \.self){ index in
+                    GlowingTextField(placeholder: self.fieldNames[index], tField: self.$fields[index])
+                }
                 TextView(text: $about, placeholder: "About")
-            }
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 300)
+                Button(action: {}){
+                    Text("Done")
+            
+                }
+            }.padding()
         }
     }
 }
+
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
@@ -45,7 +56,6 @@ struct SignUpView_Previews: PreviewProvider {
 }
 
 struct TextView: UIViewRepresentable {
- 
     @Binding var text: String
     var placeholder: String
  
@@ -56,7 +66,11 @@ struct TextView: UIViewRepresentable {
         textView.isSelectable = true
         textView.isUserInteractionEnabled = true
         textView.delegate = context.coordinator
-        textView.textColor = UIColor.lightGray
+        textView.textColor = UIColor.tertiaryLabel
+        textView.layer.borderColor = UIColor(named: "textViewColor")!.cgColor
+        textView.layer.borderWidth = 1.2
+        textView.layer.cornerRadius = 20
+        textView.textContainerInset = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
         textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
  
         return textView
@@ -86,20 +100,29 @@ struct TextView: UIViewRepresentable {
             if (textView.text == "")
             {
                 textView.text = placeholder
-                textView.textColor = .lightGray
+                textView.textColor = UIColor.tertiaryLabel
                 textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
             }
             self.$text.wrappedValue = textView.text == placeholder ? "" : textView.text
         }
         
+        func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+            textView.layer.borderColor = UIColor.orange.cgColor
+            return true
+        }
+        
+        func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+            textView.layer.borderColor = UIColor(named: "textViewColor")!.cgColor
+            return true
+        }
+        
         func textViewDidChangeSelection(_ textView: UITextView) {
-            if textView.textColor == UIColor.lightGray {
+            if textView.textColor == UIColor.tertiaryLabel {
                 textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
             }
         }
     }
 }
-
 
 extension String {
 
