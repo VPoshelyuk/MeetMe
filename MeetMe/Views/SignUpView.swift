@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SignUpView: View {
 //    @State var full_name = ""
@@ -21,6 +22,7 @@ struct SignUpView: View {
     @State var about = ""
     
     @State private var editing = false
+    @State var value: CGFloat = 0
     
     let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
     
@@ -48,7 +50,21 @@ struct SignUpView: View {
                         .background(Color("textViewColor"))
                         .clipShape(Capsule())
                 }
-            }.padding()
+                .padding(.bottom)
+            }.padding(.horizontal)
+            .padding(.bottom, self.value)
+            .offset(y: -self.value)
+            .animation(.easeInOut(duration: 0.16))
+            .onAppear{
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ notification in
+                    let value = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                    self.value = value.height/2
+                }
+                
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ notification in
+                    self.value = 0
+                }
+            }
         }
     }
 }
