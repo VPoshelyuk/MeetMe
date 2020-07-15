@@ -19,6 +19,5 @@ struct User: Decodable, Identifiable {
     let twitter_link: String? = ""
     let fb_link: String? = ""
     let portfolio_link: String? = ""
-    let db_link: String? = ""
     let bio: String? = ""
 }

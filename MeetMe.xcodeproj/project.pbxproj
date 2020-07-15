@@ -22,6 +22,8 @@
 		E7C0ECD024BACEE500B68EDD /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECCF24BACEE500B68EDD /* SegmentedControlView.swift */; };
 		E7C0ECD324BAF5DB00B68EDD /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECD124BAF5DA00B68EDD /* DetailView.swift */; };
 		E7C0ECD424BAF5DB00B68EDD /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECD224BAF5DA00B68EDD /* WebView.swift */; };
+		E7DE2B3624BE838E009D0ABE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE2B3524BE838E009D0ABE /* MainView.swift */; };
+		E7DE2B3A24BE8564009D0ABE /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE2B3924BE8564009D0ABE /* LogInView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		E7C0ECCF24BACEE500B68EDD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		E7C0ECD124BAF5DA00B68EDD /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		E7C0ECD224BAF5DA00B68EDD /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		E7DE2B3524BE838E009D0ABE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		E7DE2B3924BE8564009D0ABE /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,8 @@
 				E716F4F324BBD4F800902AF5 /* SignUpView.swift */,
 				E716F4F524BBD74400902AF5 /* ImagePicker.swift */,
 				E716F4F724BD18E400902AF5 /* GlowingTextField.swift */,
+				E7DE2B3524BE838E009D0ABE /* MainView.swift */,
+				E7DE2B3924BE8564009D0ABE /* LogInView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,12 +196,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7C0ECBB24BAC95B00B68EDD /* AppDelegate.swift in Sources */,
+				E7DE2B3624BE838E009D0ABE /* MainView.swift in Sources */,
 				E7C0ECD024BACEE500B68EDD /* SegmentedControlView.swift in Sources */,
 				E7C0ECBD24BAC95B00B68EDD /* SceneDelegate.swift in Sources */,
 				E716F4F224BBCD8300902AF5 /* UserData.swift in Sources */,
 				E7C0ECD424BAF5DB00B68EDD /* WebView.swift in Sources */,
 				E716F4F824BD18E400902AF5 /* GlowingTextField.swift in Sources */,
 				E7C0ECD324BAF5DB00B68EDD /* DetailView.swift in Sources */,
+				E7DE2B3A24BE8564009D0ABE /* LogInView.swift in Sources */,
 				E716F4F424BBD4F800902AF5 /* SignUpView.swift in Sources */,
 				E716F4F624BBD74400902AF5 /* ImagePicker.swift in Sources */,
 				E716F4F024BBCA8100902AF5 /* CardData.swift in Sources */,

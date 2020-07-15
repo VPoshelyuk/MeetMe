@@ -26,12 +26,24 @@ struct SignUpView: View {
     
     let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
     
+    @Binding var auth: String
+    
+    var drag: some Gesture {
+        DragGesture()
+            .onChanged({gesture in
+                if gesture.startLocation.x < CGFloat(100.0){
+                    self.auth = ""
+                }
+             }
+        )
+    }
+    
     var body: some View {
         ScrollView(showsIndicators: false){
             VStack {
                 HStack{
                     Text("Welcome to MeetMe! \nYou are on your way to sign up! Please start by choosing your picture:")
-                    .frame(width: (UIScreen.main.bounds.width - 50)/2)
+                    .frame(width: (UIScreen.main.bounds.width - 50)/2, height: 150)
                     Spacer()
                     ImagePicker()
                 }
@@ -65,14 +77,15 @@ struct SignUpView: View {
                     self.value = 0
                 }
             }
-        }
+        }.gesture(drag)
     }
 }
 
 
 struct SignUpView_Previews: PreviewProvider {
+    @State static var auth: String = "yo"
     static var previews: some View {
-        SignUpView()
+        SignUpView(auth: $auth)
     }
 }
 

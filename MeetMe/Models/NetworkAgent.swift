@@ -28,7 +28,7 @@ class NetworkAgent: ObservableObject {
                     let decoder = JSONDecoder()
                     if let safeData = data {
                         do {
-                            var result = try decoder.decode(Card.self, from: safeData)
+                            let result = try decoder.decode(Card.self, from: safeData)
                             DispatchQueue.main.async {
                                 print(result.full_name)
                             }
@@ -52,7 +52,6 @@ class NetworkAgent: ObservableObject {
                                    "twitter_link": user.twitter_link ?? "",
                                    "fb_link": user.fb_link ?? "",
                                    "portfolio_link": user.portfolio_link ?? "",
-                                   "db_link": user.db_link ?? "",
                                    "bio": user.bio ?? ""]
 
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
