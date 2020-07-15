@@ -22,7 +22,7 @@ struct ImagePicker: View {
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fill) //update with framework
-                .frame(width: 150, height: 150)
+                .frame(width: 300, height: 300)
                 .clipShape(Circle())
                     .overlay(Circle().strokeBorder(isPresented ? .orange : Color("textViewColor"), lineWidth: 1.2))
             }

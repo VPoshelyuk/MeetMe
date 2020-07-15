@@ -22,6 +22,7 @@
 		E7C0ECD024BACEE500B68EDD /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECCF24BACEE500B68EDD /* SegmentedControlView.swift */; };
 		E7C0ECD324BAF5DB00B68EDD /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECD124BAF5DA00B68EDD /* DetailView.swift */; };
 		E7C0ECD424BAF5DB00B68EDD /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECD224BAF5DA00B68EDD /* WebView.swift */; };
+		E7C6867324BF8DEC00B52B63 /* SignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C6867224BF8DEC00B52B63 /* SignUpPage.swift */; };
 		E7DE2B3624BE838E009D0ABE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE2B3524BE838E009D0ABE /* MainView.swift */; };
 		E7DE2B3A24BE8564009D0ABE /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DE2B3924BE8564009D0ABE /* LogInView.swift */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		E7C0ECCF24BACEE500B68EDD /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		E7C0ECD124BAF5DA00B68EDD /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		E7C0ECD224BAF5DA00B68EDD /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		E7C6867224BF8DEC00B52B63 /* SignUpPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPage.swift; sourceTree = "<group>"; };
 		E7DE2B3524BE838E009D0ABE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E7DE2B3924BE8564009D0ABE /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +122,7 @@
 				E716F4F724BD18E400902AF5 /* GlowingTextField.swift */,
 				E7DE2B3524BE838E009D0ABE /* MainView.swift */,
 				E7DE2B3924BE8564009D0ABE /* LogInView.swift */,
+				E7C6867224BF8DEC00B52B63 /* SignUpPage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				E7C0ECBD24BAC95B00B68EDD /* SceneDelegate.swift in Sources */,
 				E716F4F224BBCD8300902AF5 /* UserData.swift in Sources */,
 				E7C0ECD424BAF5DB00B68EDD /* WebView.swift in Sources */,
+				E7C6867324BF8DEC00B52B63 /* SignUpPage.swift in Sources */,
 				E716F4F824BD18E400902AF5 /* GlowingTextField.swift in Sources */,
 				E7C0ECD324BAF5DB00B68EDD /* DetailView.swift in Sources */,
 				E7DE2B3A24BE8564009D0ABE /* LogInView.swift in Sources */,

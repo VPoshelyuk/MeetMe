@@ -52,8 +52,7 @@ struct SegmentedControlView: View {
     private static let BackgroundColor: Color = Color(.secondarySystemBackground)
     private static let ShadowColor: Color = Color.black.opacity(0.2)
     private static let TextColor: Color = Color(.secondaryLabel)
-    private static let SelectedTextColor: Color = Color(.label)
-
+    private static let SelectedTextColor: Color = Color("textViewColor")
     private static let TextFont: Font = .system(size: 14)
     
     private static let SegmentCornerRadius: CGFloat = 12

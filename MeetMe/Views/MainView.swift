@@ -17,15 +17,16 @@ struct MainView: View {
                ContentView()
             } else {
                 if auth == "logIn" {
-                    LogInView(auth: $auth)
+                    LogInView(auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))
                 } else if auth == "signUp" {
-                    SignUpView(auth: $auth).transition(.opacity).id("My" + auth) //doesn't work
+                    SignUpView(auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))
                 } else {
                     Group {
                         Image("Logo")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: UIScreen.main.bounds.width - 50)
+                            .transition(AnyTransition.slide.animation(.easeInOut(duration: 100.0)))
                         Button(action: {
                             self.auth = "signUp"
                         }){

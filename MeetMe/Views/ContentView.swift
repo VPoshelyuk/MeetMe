@@ -36,7 +36,7 @@ struct ContentView: View {
                     .resizable()
                     .frame(width: 300, height: 300)
                     .clipShape(Circle())
-                    .overlay(Circle().strokeBorder(Color.gray, lineWidth: 3))
+                    .overlay(Circle().strokeBorder(Color("textViewColor"), lineWidth: 3))
                 Text("Viachaslau Pashaliuk")
                     .font(.custom("Ubuntu-Bold", size: 34))
                 HStack(spacing: 20) {
