@@ -9,15 +9,15 @@
 import Foundation
 
 struct User: Decodable, Identifiable {
-    let id: String
+    let id: String? = nil
     let full_name: String
     let email: String
-    let profile_pic_path: String
     let phone_number: String
     let location: String
-    let linkedin_link: String? = ""
-    let twitter_link: String? = ""
-    let fb_link: String? = ""
-    let portfolio_link: String? = ""
-    let bio: String? = ""
+    let linkedin_link: String?
+    let twitter_link: String?
+    let facebook_link: String?
+    let portfolio_link: String?
+    let bio: String?
+    let password: String?
 }

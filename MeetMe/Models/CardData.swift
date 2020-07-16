@@ -9,7 +9,7 @@
 import Foundation
 
 struct Card: Decodable, Identifiable {
-    let id: String
+    let id: Int?
     let full_name: String
     let email: String
     let profile_pic_path: String

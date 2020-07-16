@@ -10,7 +10,9 @@ import Foundation
 
 class NetworkAgent: ObservableObject {
     
-    @Published var cards = [Card]()
+    let baseURL = "https://meetme-api-v1.herokuapp.com"
+    
+    @Published var cards = [User]()
     static let session = URLSession(configuration: .default)
     
     func fetchAllCards(_ id: String) {
@@ -43,36 +45,50 @@ class NetworkAgent: ObservableObject {
     }
     
     func signUp(user: User) {
-        let json: [String: Any] = ["full_name": user.full_name,
-                                   "email": user.email,
-                                   "profile_pic_path": user.profile_pic_path,
-                                   "phone_number": user.phone_number,
-                                   "location": user.location,
-                                   "linkedin_link": user.linkedin_link ?? "",
-                                   "twitter_link": user.twitter_link ?? "",
-                                   "fb_link": user.fb_link ?? "",
-                                   "portfolio_link": user.portfolio_link ?? "",
-                                   "bio": user.bio ?? ""]
-
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        let url = URL(string: "https://meetme-api-v1.herokuapp.com/api/v1/signup")!
+        let json = ["full_name": user.full_name,
+                   "email": user.email,
+                   "phone_number": user.phone_number,
+                   "location": user.location,
+                   "linkedin_link": user.linkedin_link ?? "",
+                   "twitter_link": user.twitter_link ?? "",
+                   "facebook_link": user.facebook_link ?? "",
+                   "portfolio_link": user.portfolio_link ?? "",
+                   "bio": user.bio ?? "",
+                   "password": user.password]
+        let url = URL(string: "\(baseURL)/signup")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
-        // insert json data to the request
-        request.httpBody = jsonData
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-            }
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+        } catch let error {
+            print(error.localizedDescription)
         }
 
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        //create dataTask using the session object to send data to the server
+        let task = NetworkAgent.session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+
+            guard error == nil else {
+                return
+            }
+
+            guard let data = data else {
+                return
+            }
+
+            do {
+                //create json object from data
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                    print(json)
+                    // handle json...
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        })
         task.resume()
     }
     

@@ -25,19 +25,19 @@ struct SignUpView: View {
     @State var currentPage = 1
     
     
-    @State private var firstPageFields = ["", ""]
+    @State private var firstPageFields = ["test@gda.com", "123456qwerty"]
     let firstPagePlaceholders = ["E-Mail", "Password"]
     
-    @State private var secondPageFields = ["", "", ""]
+    @State private var secondPageFields = ["Slava P", "9293098458", "New York"]
     let secondPagePlaceholders = ["Full Name", "Phone #", "Location"]
     
-    @State private var thirdPageFields = ["", "", "", ""]
+    @State private var thirdPageFields = ["https://www.linkedin.com/in/", "https://twitter.com/", "https://www.facebook.com/", "https://www.google.com/"]
     let thirdPagePlaceholders = ["LinkedIn", "Twitter", "Facebook", "Portfolio"]
     
     @State private var editing = false
     @State var value: CGFloat = 0
     
-    
+    @ObservedObject var networkAgent: NetworkAgent
     @Binding var auth: String
     
 //    var drag: some Gesture {
@@ -122,6 +122,8 @@ struct SignUpView: View {
                         self.value == 0 ? Spacer() : nil
                         Button(action: {
                             self.currentPage += 1
+                            let newUser = User(full_name: self.secondPageFields[0], email: self.firstPageFields[0], phone_number: self.secondPageFields[1], location: self.secondPageFields[2], linkedin_link: self.thirdPageFields[0], twitter_link: self.thirdPageFields[1], facebook_link: self.thirdPageFields[2], portfolio_link: self.thirdPageFields[3], bio: self.about, password: self.firstPageFields[1])
+                            self.networkAgent.signUp(user: newUser)
                         }){
                             Text("Done")
                             .foregroundColor(.white)
@@ -160,9 +162,10 @@ extension UIApplication {
 }
 
 struct SignUpView_Previews: PreviewProvider {
+    @ObservedObject static var networkAgent = NetworkAgent()
     @State static var auth: String = "yo"
     static var previews: some View {
-        SignUpView(auth: $auth)
+        SignUpView(networkAgent: networkAgent, auth: $auth)
     }
 }
 

@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct LogInView: View {
+    
+    @ObservedObject var networkAgent: NetworkAgent
     @Binding var auth: String
     
     @State var email = ""
@@ -31,8 +33,9 @@ struct LogInView: View {
 }
 
 struct LogInView_Previews: PreviewProvider {
+    @ObservedObject static var networkAgent = NetworkAgent()
     @State static var auth: String = "yo"
     static var previews: some View {
-        LogInView(auth: $auth)
+        LogInView(networkAgent: networkAgent, auth: $auth)
     }
 }
