@@ -40,20 +40,21 @@ struct Profile: View {
                         }
                         else {
                             // The download has not yet started. CircleActivityView is animated activity indicator that suits this case.
-                            CircleActivityView().stroke(lineWidth: 50.0)
+                            CircleActivityView().stroke(lineWidth: 20.0)
                         }
                     }
                 }
-                    .frame(width: 300, height: 300)
+                    .frame(width: 250, height: 250)
             },content:  {
                 $0.image
                     .resizable()
-                    .frame(width: 300, height: 300)
+                    .frame(width: 250, height: 250)
                     .clipShape(Circle())
                     .overlay(Circle().strokeBorder(Color("textViewColor"), lineWidth: 3))
             })
             Text(me!.full_name)
                 .font(.custom("Ubuntu-Bold", size: 34))
+            Text(me!.location)
             HStack(spacing: 20) {
                 ForEach(0..<links.count, id: \.self) { i in
                     LinkLogos(linkTuple: self.links[i], presentingModal: self.$presentingModal, activeSheet: self.$activeSheet, link: self.$link)

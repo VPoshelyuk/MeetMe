@@ -17,7 +17,7 @@ struct MainView: View {
     var body: some View {
         VStack {
             if UserDefaults.standard.object(forKey: "me") != nil {
-               ContentView(networkAgent: networkAgent)
+                ContentView(networkAgent: networkAgent, auth: $auth)
             } else {
                 if auth == "logIn" {
                     LogInView(networkAgent: networkAgent, auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))

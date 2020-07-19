@@ -126,7 +126,7 @@ struct SignUpView: View {
                         UIApplication.shared.endEditing()
                     }
                 } else if currentPage == 6 {
-                    ContentView(networkAgent: networkAgent)
+                    ContentView(networkAgent: networkAgent, auth: $auth)
                 }
             }.padding(.horizontal)
             .padding(.bottom, self.value)
@@ -256,76 +256,3 @@ extension String {
         return String(self[start ..< end])
     }
 }
-
-//
-//struct SignUpView: View {
-////    @State var full_name = ""
-////    @State private var email = ""
-////    @State private var phone_number = ""
-////    @State private var location = ""
-////    @State private var linkedin_link = "https://www.linkedin.com/in/"
-////    @State private var twitter_link = "https://twitter.com/"
-////    @State private var facebook_link = "https://www.facebook.com/"
-////    @State private var portfolio_link = "https://www."
-//    @State private var fields = ["", "", "", "", "https://www.linkedin.com/in/", "https://twitter.com/", "https://www.facebook.com/", "https://www."]
-//    @State var about = ""
-//
-//    @State private var editing = false
-//    @State var value: CGFloat = 0
-//
-//    let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
-//
-//    @Binding var auth: String
-//
-//    var drag: some Gesture {
-//        DragGesture()
-//            .onChanged({gesture in
-//                if gesture.startLocation.x < CGFloat(100.0){
-//                    self.auth = ""
-//                }
-//             }
-//        )
-//    }
-//
-//    var body: some View {
-//        ScrollView(showsIndicators: false){
-//            VStack {
-//                HStack{
-//                    Text("Welcome to MeetMe! \nYou are on your way to sign up! Please start by choosing your picture:")
-//                    .frame(width: (UIScreen.main.bounds.width - 50)/2, height: 150)
-//                    Spacer()
-//                    ImagePicker()
-//                }
-//                .frame(width: UIScreen.main.bounds.width - 50)
-//                ForEach(0..<fieldNames.count, id: \.self){ index in
-//                    GlowingTextField(placeholder: self.fieldNames[index], tField: self.$fields[index])
-//                }
-//                TextView(text: $about, placeholder: "About")
-//                    .frame(width: UIScreen.main.bounds.width - 50, height: 300)
-//                Button(action: {
-//                    print("Form submitted!", self.fields)
-//                }){
-//                    Text("Done")
-//                        .foregroundColor(.white)
-//                        .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-//                        .background(Color("textViewColor"))
-//                        .clipShape(Capsule())
-//                }
-//                .padding(.bottom)
-//            }.padding(.horizontal)
-//            .padding(.bottom, self.value)
-//            .offset(y: -self.value)
-//            .animation(.easeInOut(duration: 0.16))
-//            .onAppear{
-//                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ notification in
-//                    let value = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-//                    self.value = value.height/2
-//                }
-//
-//                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ notification in
-//                    self.value = 0
-//                }
-//            }
-//        }.gesture(drag)
-//    }
-//}

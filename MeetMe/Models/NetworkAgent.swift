@@ -74,13 +74,7 @@ class NetworkAgent: ObservableObject {
             guard let data = data else {
                 return
             }
-
-
-//                //create json object from data
-//                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-//                    print(json)
-//                    // handle json...
-//                }
+            
             let decoder = JSONDecoder()
             do {
                 let result = try decoder.decode(Response.self, from: data)
@@ -92,37 +86,54 @@ class NetworkAgent: ObservableObject {
                     }
                 }
             } catch let error {
-                print(error.localizedDescription, "you suck")
+                print(error.localizedDescription)
             }
         })
         task.resume()
     }
     
-//    func logIn(email: String, password: String) {
-//        let json: [String: Any] = ["title": "ABC",
-//                                   "dict": ["1":"First", "2":"Second"]]
-//
-//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-//
-//        // create post request
-//        let url = URL(string: "http://httpbin.org/post")!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//
-//        // insert json data to the request
-//        request.httpBody = jsonData
-//
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            guard let data = data, error == nil else {
-//                print(error?.localizedDescription ?? "No data")
-//                return
-//            }
-//            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-//            if let responseJSON = responseJSON as? [String: Any] {
-//                print(responseJSON)
-//            }
-//        }
-//
-//        task.resume()
-//    }
+    func logIn(email: String, password: String) {
+        let json = ["email": email,
+                "password": password]
+
+        let url = URL(string: "\(baseURL)/login")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+        } catch let error {
+            print(error.localizedDescription)
+        }
+
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        //create dataTask using the session object to send data to the server
+        let task = NetworkAgent.session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+
+            guard error == nil else {
+                return
+            }
+
+            guard let data = data else {
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            do {
+                let result = try decoder.decode(Response.self, from: data)
+                DispatchQueue.main.async {
+                    self.myProfile = [result.user.data.attributes]
+                    let encoder = JSONEncoder()
+                    if let encoded = try? encoder.encode(result.user.data.attributes) {
+                        UserDefaults.standard.set(encoded, forKey: "me")
+                    }
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        })
+        task.resume()
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var networkAgent: NetworkAgent
+    @Binding var auth: String
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -30,6 +31,7 @@ struct ContentView: View {
                     if let appDomain = Bundle.main.bundleIdentifier {
                         UserDefaults.standard.removePersistentDomain(forName: appDomain)
                     }
+                    self.auth = "main"
                 }){
                     HStack {
                         Text("Sign Out")
@@ -59,7 +61,7 @@ struct ContentView: View {
         } else if networkAgent.myProfile.count != 0{
             me = networkAgent.myProfile[0]
         } else {
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
                 self.updateProfile()
             }
         }
@@ -67,8 +69,9 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    @State static var auth: String = "yo"
     @ObservedObject static var networkAgent = NetworkAgent()
     static var previews: some View {
-        ContentView(networkAgent: networkAgent)
+        ContentView(networkAgent: networkAgent, auth: $auth)
     }
 }

@@ -15,20 +15,65 @@ struct LogInView: View {
     
     @State var email = ""
     @State var password = ""
-    var drag: some Gesture {
-        DragGesture()
-            .onChanged({gesture in
-                if gesture.startLocation.x < CGFloat(100.0) && gesture.predictedEndLocation.x > CGFloat(UIScreen.main.bounds.width - 100){
-                    self.auth = ""
-                }
-             }
-        )
-    }
+    @State var success = false
+    @State var value: CGFloat = 0
+
     var body: some View {
         VStack {
-            GlowingTextField(placeholder: "E-Mail", tField: $email)
-            GlowingTextField(placeholder: "Password", tField: $password)
-            }.gesture(drag).padding()
+            if success {
+                ContentView(networkAgent: networkAgent, auth: $auth)
+            } else {
+                HStack {
+                    Text("Back")
+                        .onTapGesture { self.auth = "" }
+                    Spacer()
+                }
+                HStack{
+                    Text("Hi there! Let's log you in:")
+                        .font(.custom("Ubuntu-Bold", size: 34))
+                    Spacer()
+                }.padding(.top, 50).padding(.bottom, 50)
+                self.value == 0 ? Spacer() : nil
+                GlowingTextField(placeholder: "E-Mail", tField: $email)
+                GlowingTextField(placeholder: "Password", tField: $password)
+                Spacer()
+                Button(action: {
+                    self.networkAgent.logIn(email: self.email, password: self.password)
+                }){
+                    HStack {
+                        Text("Log me in")
+                        Image(systemName: "arrow.right")
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                    .background(Color("textViewColor"))
+                    .clipShape(Capsule())
+                }
+                .padding(.bottom)
+                self.value != 0 ? Spacer(minLength: self.value) : nil
+            }
+        }.padding(.horizontal)
+            .animation(.easeInOut(duration: 0.16))
+            .onAppear{
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ notification in
+                    let value = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                    self.value = value.height
+                }
+
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ notification in
+                    self.value = 0
+                }
+            }
+    }
+    
+    func successfulLogIn() {
+        if UserDefaults.standard.object(forKey: "me") != nil {
+            self.success = true
+        } else {
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
+                self.successfulLogIn()
+            }
+        }
     }
 }
 
