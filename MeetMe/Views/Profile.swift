@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import URLImage
 import MessageUI
 
 struct Profile: View {
@@ -29,11 +30,27 @@ struct Profile: View {
     var body: some View {
         VStack {
             Spacer()
-            Image("test")
-                .resizable()
-                .frame(width: 300, height: 300)
-                .clipShape(Circle())
-                .overlay(Circle().strokeBorder(Color("textViewColor"), lineWidth: 3))
+            URLImage(URL(string: me!.picture)!, placeholder: {
+                ProgressView($0) { progress in
+                    ZStack {
+                        if progress > 0.0 {
+                            // The download has started. CircleProgressView displays the progress.
+                            CircleProgressView(progress).stroke(lineWidth: 8.0)
+                        }
+                        else {
+                            // The download has not yet started. CircleActivityView is animated activity indicator that suits this case.
+                            CircleActivityView().stroke(lineWidth: 50.0)
+                        }
+                    }
+                }
+                    .frame(width: 50.0, height: 50.0)
+            },content:  {
+                $0.image
+                    .resizable()
+                    .frame(width: 300, height: 300)
+                    .clipShape(Circle())
+                    .overlay(Circle().strokeBorder(Color("textViewColor"), lineWidth: 3))
+            })
             Text(me!.full_name)
                 .font(.custom("Ubuntu-Bold", size: 34))
             HStack(spacing: 20) {
@@ -42,28 +59,28 @@ struct Profile: View {
                     .resizable()
                     .renderingMode(.template)
                     .frame(width: 50, height: 50)
-                        .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  "https://www.facebook.com/slava.poshelyk"}
+                        .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.facebook_link}
                 }
                 if me!.twitter_link.contains("twitter") {
                 Image("twitter")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  "https://twitter.com/SPoshelyk"}
+                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.twitter_link}
                 }
                 if me!.linkedin_link.contains("linkedin") {
                 Image("linkedin")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  "https://www.linkedin.com/in/viachaslau-pashaliuk/"}
+                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.linkedin_link}
                 }
                 if me!.github_link.contains("github") {
                 Image("github")
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  "https://github.com/VPoshelyuk/"}
+                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.github_link}
                 }
                 Image("email")
                 .resizable()
@@ -75,7 +92,7 @@ struct Profile: View {
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 50, height: 50)
-                    .onTapGesture {self.activeSheet = .web; self.link =  "https://www.linkedin.com/in/viachaslau-pashaliuk/"; self.presentingModal = true; print(self.link) }
+                    .onTapGesture {self.activeSheet = .web; self.link = self.me!.portfolio_link; self.presentingModal = true; print(self.link) }
                 }
             }
             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
