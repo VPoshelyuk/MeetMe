@@ -23,7 +23,7 @@ struct SignUpPage: View {
                 Text("Back")
                     .onTapGesture {
                         if self.currentPage == 1 {
-                            self.auth = ""
+                            self.auth = "main"
                         } else {
                             self.currentPage -= 1
                         }

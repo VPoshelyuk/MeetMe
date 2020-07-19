@@ -11,18 +11,20 @@ import SwiftUI
 struct MainView: View {
     
     @ObservedObject var networkAgent = NetworkAgent()
-
     
     @State var auth = ""
+    @State var me: Attributes?
+    
+    
     var body: some View {
         VStack {
-            if UserDefaults.standard.object(forKey: "me") != nil {
-                ContentView(networkAgent: networkAgent, auth: $auth)
+            if UserDefaults.standard.object(forKey: "me") != nil && auth == ""{
+                ContentView(networkAgent: networkAgent, auth: $auth, me: $me)
             } else {
                 if auth == "logIn" {
                     LogInView(networkAgent: networkAgent, auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))
                 } else if auth == "signUp" {
-                    SignUpView(networkAgent: networkAgent, auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))
+                    SignUpView(networkAgent: networkAgent, auth: $auth, me: $me).transition(.slide).animation(.easeInOut(duration: 0.3))
                 } else {
                     Group {
                         Image("Logo")

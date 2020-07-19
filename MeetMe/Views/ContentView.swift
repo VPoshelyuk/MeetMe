@@ -14,7 +14,7 @@ struct ContentView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    @State var me: Attributes?
+    @Binding var me: Attributes?
 
     @State private var selected = 1
     var body: some View {
@@ -28,9 +28,11 @@ struct ContentView: View {
             }else if self.selected == 2{
                 Spacer()
                 Button(action: {
+                    self.me = nil
                     if let appDomain = Bundle.main.bundleIdentifier {
                         UserDefaults.standard.removePersistentDomain(forName: appDomain)
                     }
+                    networkAgent.logOut()
                     self.auth = "main"
                 }){
                     HStack {
@@ -48,7 +50,7 @@ struct ContentView: View {
                 Spacer()
             }
             me != nil ? SegmentedControlView(selected: self.$selected).padding(1) : nil
-        }.onAppear{self.updateProfile()}
+        }.onAppear{if self.me == nil {self.updateProfile()};print("here")}
     }
     
     func updateProfile(){
@@ -57,7 +59,6 @@ struct ContentView: View {
             if let profile = try? decoder.decode(Attributes.self, from: udMe) {
                 self.me = profile
             }
-//            me = Attributes(id: ud.integer(forKey: "my_id"), full_name: ud.string(forKey: "my_full_name")!, email: ud.string(forKey: "my_email")!, phone_number: ud.string(forKey: "my_phone_number")!, location: ud.string(forKey: "my_location")!, linkedin_link: ud.string(forKey: "my_linkedin_link")!, twitter_link: ud.string(forKey: "my_twitter_link")!, facebook_link: ud.string(forKey: "my_facebook_link")!, portfolio_link: ud.string(forKey: "my_portfolio_link")!, bio: ud.string(forKey: "my_bio")!, picture: ud.string(forKey: "my_picture")!)
         } else if networkAgent.myProfile.count != 0{
             me = networkAgent.myProfile[0]
         } else {
@@ -68,10 +69,10 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    @State static var auth: String = "yo"
-    @ObservedObject static var networkAgent = NetworkAgent()
-    static var previews: some View {
-        ContentView(networkAgent: networkAgent, auth: $auth)
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    @State static var auth: String = "yo"
+//    @ObservedObject static var networkAgent = NetworkAgent()
+//    static var previews: some View {
+//        ContentView(networkAgent: networkAgent, auth: $auth)
+//    }
+//}

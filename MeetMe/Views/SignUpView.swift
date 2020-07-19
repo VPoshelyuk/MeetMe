@@ -27,8 +27,11 @@ struct SignUpView: View {
     @State private var editing = false
     @State var value: CGFloat = 0
     
+    @State var showProgressView = false
+    
     @ObservedObject var networkAgent: NetworkAgent
     @Binding var auth: String
+    @Binding var me: Attributes?
     
 //    var drag: some Gesture {
 //        DragGesture(minimumDistance: 300)
@@ -47,100 +50,121 @@ struct SignUpView: View {
 //    }
     
     var body: some View {
+        ZStack {
             VStack(alignment: .center) {
-                if currentPage == 1 {
-                    SignUpPage(pageName: "1. E-Mail and Password", tfArray: $firstPageFields, placeholders: firstPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
-                } else if currentPage == 2 {
-                    SignUpPage(pageName: "2. Full Name, Phone Number and Location", tfArray: $secondPageFields, placeholders: secondPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
-                } else if currentPage == 3 {
-                    SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
-                } else if currentPage == 4 {
-                    VStack {
-                        HStack {
-                            Text("Back")
-                                .onTapGesture {
-                                    if self.currentPage == 1 {
-                                        self.auth = ""
-                                    } else {
-                                        self.currentPage -= 1
-                                    }
+                    if currentPage == 1 {
+                            SignUpPage(pageName: "1. E-Mail and Password", tfArray: $firstPageFields, placeholders: firstPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                        } else if currentPage == 2 {
+                            SignUpPage(pageName: "2. Full Name, Phone Number and Location", tfArray: $secondPageFields, placeholders: secondPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                        } else if currentPage == 3 {
+                            SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                        } else if currentPage == 4 {
+                            VStack {
+                                HStack {
+                                    Text("Back")
+                                        .onTapGesture {
+                                            if self.currentPage == 1 {
+                                                self.auth = "main"
+                                            } else {
+                                                self.currentPage -= 1
+                                            }
+                                        }
+                                    Spacer()
                                 }
-                            Spacer()
-                        }
-                        HStack{
-                            Text("4. Photo")
-                                .font(.custom("Ubuntu-Bold", size: 34))
-                            Spacer()
-                        }.padding(.top, 50).padding(.bottom, 50)
-                        ImagePicker(pickedImage: $pickedImage).padding(.top, 50)
-                        Spacer()
-                        Button(action: {
-                            self.currentPage += 1
-                        }){
-                            HStack {
-                                Text("Next")
-                                Image(systemName: "arrow.right")
+                                HStack{
+                                    Text("4. Photo")
+                                        .font(.custom("Ubuntu-Bold", size: 34))
+                                    Spacer()
+                                }.padding(.top, 50).padding(.bottom, 50)
+                                ImagePicker(pickedImage: $pickedImage).padding(.top, 50)
+                                Spacer()
+                                Button(action: {
+                                    self.currentPage += 1
+                                }){
+                                    HStack {
+                                        Text("Next")
+                                        Image(systemName: "arrow.right")
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                                    .background(Color("textViewColor"))
+                                    .clipShape(Capsule())
+                                }
+                                .padding(.bottom)
                             }
-                            .foregroundColor(.white)
-                            .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-                            .background(Color("textViewColor"))
-                            .clipShape(Capsule())
-                        }
-                        .padding(.bottom)
-                    }
-                } else if currentPage == 5 {
-                    VStack {
-                        HStack {
-                            Text("Back")
-                                .onTapGesture {
-                                    if self.currentPage == 1 {
-                                        self.auth = ""
-                                    } else {
-                                        self.currentPage -= 1
-                                    }
+                        } else if currentPage == 5 {
+                            VStack {
+                                HStack {
+                                    Text("Back")
+                                        .onTapGesture {
+                                            if self.currentPage == 1 {
+                                                self.auth = "main"
+                                            } else {
+                                                self.currentPage -= 1
+                                            }
+                                        }
+                                    Spacer()
                                 }
-                            Spacer()
+                                Spacer()
+                                HStack{
+                                    Text("5. Let people know a bit about yourself")
+                                        .font(.custom("Ubuntu-Bold", size: 34))
+                                    Spacer()
+                                }
+                                TextView(text: $about, placeholder: "About")
+                                    .frame(width: UIScreen.main.bounds.width - 50, height: 300)
+                                self.value == 0 ? Spacer() : nil
+                                Button(action: {
+                                    UIApplication.shared.endEditing()
+                                    self.showProgressView = true
+                                    let newUser = LocalUser(full_name: self.secondPageFields[0], email: self.firstPageFields[0], phone_number: self.secondPageFields[1], location: self.secondPageFields[2], linkedin_link: self.thirdPageFields[0], twitter_link: self.thirdPageFields[1], facebook_link: self.thirdPageFields[2], github_link: self.thirdPageFields[3], portfolio_link: self.thirdPageFields[4], picture: self.pickedImage.pngData()!.base64EncodedString(), bio: self.about, password: self.firstPageFields[1])
+                                    self.networkAgent.signUp(user: newUser)
+                                    self.updateProfile()
+                                }){
+                                    Text("Done")
+                                    .foregroundColor(.white)
+                                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                                    .background(Color("textViewColor"))
+                                    .clipShape(Capsule())
+                                }
+                                .padding(.bottom)
+                            }.onTapGesture {
+                                UIApplication.shared.endEditing()
+                            }
                         }
-                        Spacer()
-                        HStack{
-                            Text("5. Let people know a bit about yourself")
-                                .font(.custom("Ubuntu-Bold", size: 34))
-                            Spacer()
+                    }.padding(.horizontal)
+                    .padding(.bottom, self.value)
+                    .offset(y: -self.value)
+                    .onAppear{
+                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ notification in
+                            let value = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                            self.value = value.height/2
                         }
-                        TextView(text: $about, placeholder: "About")
-                            .frame(width: UIScreen.main.bounds.width - 50, height: 300)
-                        self.value == 0 ? Spacer() : nil
-                        Button(action: {
-                            self.currentPage += 1
-                            let newUser = LocalUser(full_name: self.secondPageFields[0], email: self.firstPageFields[0], phone_number: self.secondPageFields[1], location: self.secondPageFields[2], linkedin_link: self.thirdPageFields[0], twitter_link: self.thirdPageFields[1], facebook_link: self.thirdPageFields[2], github_link: self.thirdPageFields[3], portfolio_link: self.thirdPageFields[4], picture: self.pickedImage.pngData()!.base64EncodedString(), bio: self.about, password: self.firstPageFields[1])
-                            self.networkAgent.signUp(user: newUser)
-                        }){
-                            Text("Done")
-                            .foregroundColor(.white)
-                            .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-                            .background(Color("textViewColor"))
-                            .clipShape(Capsule())
-                        }
-                        .padding(.bottom)
-                    }.onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                } else if currentPage == 6 {
-                    ContentView(networkAgent: networkAgent, auth: $auth)
-                }
-            }.padding(.horizontal)
-            .padding(.bottom, self.value)
-            .offset(y: -self.value)
-            .animation(.easeInOut(duration: 0.16))
-            .onAppear{
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){ notification in
-                    let value = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-                    self.value = value.height/2
-                }
 
-                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ notification in
-                    self.value = 0
+                        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){ notification in
+                            self.value = 0
+                        }
+                    }
+                if #available(iOS 14.0, *) {
+                    self.showProgressView ? ProgressView().zIndex(100) : nil
                 }
+            }.animation(.easeInOut(duration: 0.16))
+    }
+    
+    func updateProfile(){
+        if let udMe = UserDefaults.standard.object(forKey: "me") as? Data {
+            let decoder = JSONDecoder()
+            if let profile = try? decoder.decode(Attributes.self, from: udMe) {
+                self.me = profile
+                self.auth = ""
+            }
+        } else if networkAgent.myProfile.count != 0{
+            me = networkAgent.myProfile[0]
+            auth = ""
+        } else {
+            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { timer in
+                self.updateProfile()
+            }
         }
     }
 }
@@ -151,13 +175,13 @@ extension UIApplication {
     }
 }
 
-struct SignUpView_Previews: PreviewProvider {
-    @ObservedObject static var networkAgent = NetworkAgent()
-    @State static var auth: String = "yo"
-    static var previews: some View {
-        SignUpView(networkAgent: networkAgent, auth: $auth)
-    }
-}
+//struct SignUpView_Previews: PreviewProvider {
+//    @ObservedObject static var networkAgent = NetworkAgent()
+//    @State static var auth: String = "yo"
+//    static var previews: some View {
+//        SignUpView(networkAgent: networkAgent, auth: $auth, me: $me)
+//    }
+//}
 
 struct TextView: UIViewRepresentable {
     
@@ -254,5 +278,11 @@ extension String {
         let start = index(startIndex, offsetBy: range.lowerBound)
         let end = index(start, offsetBy: range.upperBound - range.lowerBound)
         return String(self[start ..< end])
+    }
+}
+
+struct SignUpView_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

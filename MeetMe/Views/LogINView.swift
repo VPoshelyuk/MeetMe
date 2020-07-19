@@ -20,38 +20,35 @@ struct LogInView: View {
 
     var body: some View {
         VStack {
-            if success {
-                ContentView(networkAgent: networkAgent, auth: $auth)
-            } else {
-                HStack {
-                    Text("Back")
-                        .onTapGesture { self.auth = "" }
-                    Spacer()
-                }
-                HStack{
-                    Text("Hi there! Let's log you in:")
-                        .font(.custom("Ubuntu-Bold", size: 34))
-                    Spacer()
-                }.padding(.top, 50).padding(.bottom, 50)
-                self.value == 0 ? Spacer() : nil
-                GlowingTextField(placeholder: "E-Mail", tField: $email)
-                GlowingTextField(placeholder: "Password", tField: $password)
+            HStack {
+                Text("Back")
+                    .onTapGesture { self.auth = "main" }
                 Spacer()
-                Button(action: {
-                    self.networkAgent.logIn(email: self.email, password: self.password)
-                }){
-                    HStack {
-                        Text("Log me in")
-                        Image(systemName: "arrow.right")
-                    }
-                    .foregroundColor(.white)
-                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-                    .background(Color("textViewColor"))
-                    .clipShape(Capsule())
-                }
-                .padding(.bottom)
-                self.value != 0 ? Spacer(minLength: self.value) : nil
             }
+            HStack{
+                Text("Hi there! Let's log you in:")
+                    .font(.custom("Ubuntu-Bold", size: 34))
+                Spacer()
+            }.padding(.top, 50).padding(.bottom, 50)
+            self.value == 0 ? Spacer() : nil
+            GlowingTextField(placeholder: "E-Mail", tField: $email)
+            GlowingTextField(placeholder: "Password", tField: $password)
+            Spacer()
+            Button(action: {
+                self.networkAgent.logIn(email: self.email, password: self.password)
+                self.successfulLogIn()
+            }){
+                HStack {
+                    Text("Log me in")
+                    Image(systemName: "arrow.right")
+                }
+                .foregroundColor(.white)
+                .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                .background(Color("textViewColor"))
+                .clipShape(Capsule())
+            }
+            .padding(.bottom)
+            self.value != 0 ? Spacer(minLength: self.value) : nil
         }.padding(.horizontal)
             .animation(.easeInOut(duration: 0.16))
             .onAppear{
@@ -68,9 +65,9 @@ struct LogInView: View {
     
     func successfulLogIn() {
         if UserDefaults.standard.object(forKey: "me") != nil {
-            self.success = true
+            self.auth = ""
         } else {
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
                 self.successfulLogIn()
             }
         }

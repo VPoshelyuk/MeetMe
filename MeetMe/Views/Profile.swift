@@ -60,6 +60,7 @@ struct Profile: View {
                     LinkLogos(linkTuple: self.links[i], presentingModal: self.$presentingModal, activeSheet: self.$activeSheet, link: self.$link)
                 }
             }
+            .padding(.bottom)
             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
             .disabled(!MFMailComposeViewController.canSendMail())
             .sheet(item: $activeSheet) { item in
