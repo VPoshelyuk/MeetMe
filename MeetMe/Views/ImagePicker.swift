@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ImagePicker: View {
+    @Binding var pickedImage: UIImage
+    
     @State private var isPresented = false
-    @State var pickedImage = UIImage()
     @State private var imagePicked = false
     
     var body: some View {
@@ -70,7 +71,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
 }
 
 struct ImagePicker_Previews: PreviewProvider {
+    @State static var pickedImage = UIImage()
     static var previews: some View {
-        ImagePicker()
+        ImagePicker(pickedImage: $pickedImage)
     }
 }

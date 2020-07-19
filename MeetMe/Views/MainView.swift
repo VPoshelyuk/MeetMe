@@ -11,14 +11,13 @@ import SwiftUI
 struct MainView: View {
     
     @ObservedObject var networkAgent = NetworkAgent()
-    
-    var signedIn: Bool = UserDefaults.standard.bool(forKey: "signedIn")
+
     
     @State var auth = ""
     var body: some View {
         VStack {
-            if signedIn {
-               ContentView()
+            if UserDefaults.standard.object(forKey: "me") != nil {
+               ContentView(networkAgent: networkAgent)
             } else {
                 if auth == "logIn" {
                     LogInView(networkAgent: networkAgent, auth: $auth).transition(.slide).animation(.easeInOut(duration: 0.3))

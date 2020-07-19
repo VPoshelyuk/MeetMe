@@ -9,20 +9,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-//    @State private var full_name = ""
-//    @State private var email = ""
-//    @State private var password = ""
-//    @State private var phone_number = ""
-//    @State private var location = ""
-//    @State private var linkedin_link = "https://www.linkedin.com/in/"
-//    @State private var twitter_link = "https://twitter.com/"
-//    @State private var facebook_link = "https://www.facebook.com/"
-//    @State private var portfolio_link = "https://www."
-//    @State private var fields = ["", "", "", "", "https://www.linkedin.com/in/", "https://twitter.com/", "https://www.facebook.com/", "https://www."]
-//    let fieldNames = ["Full Name", "E-Mail", "Phone #", "Location", "LinkedIn", "Twitter", "Facebook", "Portfolio"]
     
     @State var about = ""
     @State var currentPage = 1
+    @State var pickedImage = UIImage()
     
     
     @State private var firstPageFields = ["test@gda.com", "123456qwerty"]
@@ -31,8 +21,8 @@ struct SignUpView: View {
     @State private var secondPageFields = ["Slava P", "9293098458", "New York"]
     let secondPagePlaceholders = ["Full Name", "Phone #", "Location"]
     
-    @State private var thirdPageFields = ["https://www.linkedin.com/in/", "https://twitter.com/", "https://www.facebook.com/", "https://www.google.com/"]
-    let thirdPagePlaceholders = ["LinkedIn", "Twitter", "Facebook", "Portfolio"]
+    @State private var thirdPageFields = ["https://www.linkedin.com/in/", "https://twitter.com/", "https://www.facebook.com/", "https://www.github.com/", "https://www.google.com/"]
+    let thirdPagePlaceholders = ["LinkedIn", "Twitter", "Facebook", "GitHub", "Portfolio"]
     
     @State private var editing = false
     @State var value: CGFloat = 0
@@ -82,7 +72,7 @@ struct SignUpView: View {
                                 .font(.custom("Ubuntu-Bold", size: 34))
                             Spacer()
                         }.padding(.top, 50).padding(.bottom, 50)
-                        ImagePicker().padding(.top, 50)
+                        ImagePicker(pickedImage: $pickedImage).padding(.top, 50)
                         Spacer()
                         Button(action: {
                             self.currentPage += 1
@@ -122,7 +112,7 @@ struct SignUpView: View {
                         self.value == 0 ? Spacer() : nil
                         Button(action: {
                             self.currentPage += 1
-                            let newUser = User(full_name: self.secondPageFields[0], email: self.firstPageFields[0], phone_number: self.secondPageFields[1], location: self.secondPageFields[2], linkedin_link: self.thirdPageFields[0], twitter_link: self.thirdPageFields[1], facebook_link: self.thirdPageFields[2], portfolio_link: self.thirdPageFields[3], bio: self.about, password: self.firstPageFields[1])
+                            let newUser = LocalUser(full_name: self.secondPageFields[0], email: self.firstPageFields[0], phone_number: self.secondPageFields[1], location: self.secondPageFields[2], linkedin_link: self.thirdPageFields[0], twitter_link: self.thirdPageFields[1], facebook_link: self.thirdPageFields[2], github_link: self.thirdPageFields[3], portfolio_link: self.thirdPageFields[4], picture: self.pickedImage.pngData()!.base64EncodedString(), bio: self.about, password: self.firstPageFields[1])
                             self.networkAgent.signUp(user: newUser)
                         }){
                             Text("Done")
@@ -136,7 +126,7 @@ struct SignUpView: View {
                         UIApplication.shared.endEditing()
                     }
                 } else if currentPage == 6 {
-                    ContentView()
+                    ContentView(networkAgent: networkAgent)
                 }
             }.padding(.horizontal)
             .padding(.bottom, self.value)
@@ -170,6 +160,7 @@ struct SignUpView_Previews: PreviewProvider {
 }
 
 struct TextView: UIViewRepresentable {
+    
     @Binding var text: String
     var placeholder: String
  
@@ -198,6 +189,7 @@ struct TextView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, UITextViewDelegate {
+        
         @Binding var text: String
         var placeholder: String
         

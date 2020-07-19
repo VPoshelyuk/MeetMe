@@ -12,16 +12,9 @@ class NetworkAgent: ObservableObject {
     
     let baseURL = "https://meetme-api-v1.herokuapp.com"
     
+    @Published var myProfile = [Attributes]()
     @Published var cards = [User]()
     static let session = URLSession(configuration: .default)
-    
-    func fetchAllCards(_ id: String) {
-        fetchAll(with: createStringURL(id: id))
-    }
-    
-    func createStringURL(id: String) -> String{
-        return "https://cloud.iexapis.com/stable/stock/\(id)/batch?types=quote,news&token=pk_871ea244ab314546a2c5c16427f7e86f"
-    }
     
     func fetchAll(with urlString: String) {
         if let url = URL(string: urlString) {
@@ -44,23 +37,26 @@ class NetworkAgent: ObservableObject {
         }
     }
     
-    func signUp(user: User) {
-        let json = ["full_name": user.full_name,
-                   "email": user.email,
-                   "phone_number": user.phone_number,
-                   "location": user.location,
-                   "linkedin_link": user.linkedin_link ?? "",
-                   "twitter_link": user.twitter_link ?? "",
-                   "facebook_link": user.facebook_link ?? "",
-                   "portfolio_link": user.portfolio_link ?? "",
-                   "bio": user.bio ?? "",
-                   "password": user.password]
+    func signUp(user: LocalUser) {
+        var json: Dictionary<String, AnyObject>!
+        json = ["full_name": user.full_name as AnyObject,
+                   "email": user.email as AnyObject,
+                   "phone_number": user.phone_number as AnyObject,
+                   "location": user.location  as AnyObject,
+                   "linkedin_link": (user.linkedin_link ?? "") as AnyObject,
+                   "twitter_link": (user.twitter_link ?? "") as AnyObject,
+                   "facebook_link": (user.facebook_link ?? "") as AnyObject,
+                   "github_link": (user.github_link ?? "") as AnyObject,
+                   "portfolio_link": (user.portfolio_link ?? "") as AnyObject,
+                   "bio": (user.bio ?? "") as AnyObject,
+                   "picture": user.picture as AnyObject,
+                   "password": user.password  as AnyObject]
         let url = URL(string: "\(baseURL)/signup")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            request.httpBody = try JSONSerialization.data(withJSONObject: json as Any, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
         } catch let error {
             print(error.localizedDescription)
         }
@@ -79,44 +75,54 @@ class NetworkAgent: ObservableObject {
                 return
             }
 
+
+//                //create json object from data
+//                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+//                    print(json)
+//                    // handle json...
+//                }
+            let decoder = JSONDecoder()
             do {
-                //create json object from data
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                    print(json)
-                    // handle json...
+                let result = try decoder.decode(Response.self, from: data)
+                DispatchQueue.main.async {
+                    self.myProfile = [result.user.data.attributes]
+                    let encoder = JSONEncoder()
+                    if let encoded = try? encoder.encode(result.user.data.attributes) {
+                        UserDefaults.standard.set(encoded, forKey: "me")
+                    }
                 }
             } catch let error {
-                print(error.localizedDescription)
+                print(error.localizedDescription, "you suck")
             }
         })
         task.resume()
     }
     
-    func logIn(email: String, password: String) {
-        let json: [String: Any] = ["title": "ABC",
-                                   "dict": ["1":"First", "2":"Second"]]
-
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-
-        // create post request
-        let url = URL(string: "http://httpbin.org/post")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-
-        // insert json data to the request
-        request.httpBody = jsonData
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-            }
-        }
-
-        task.resume()
-    }
+//    func logIn(email: String, password: String) {
+//        let json: [String: Any] = ["title": "ABC",
+//                                   "dict": ["1":"First", "2":"Second"]]
+//
+//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//
+//        // create post request
+//        let url = URL(string: "http://httpbin.org/post")!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//
+//        // insert json data to the request
+//        request.httpBody = jsonData
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+//                return
+//            }
+//            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+//            if let responseJSON = responseJSON as? [String: Any] {
+//                print(responseJSON)
+//            }
+//        }
+//
+//        task.resume()
+//    }
 }
