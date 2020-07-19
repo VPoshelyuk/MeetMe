@@ -10,15 +10,15 @@ import SwiftUI
 import URLImage
 import MessageUI
 
-struct Profile: View {
-    enum ActiveSheet: Hashable, Identifiable {
-       case web, mail
-        
-        var id: Int {
-            return self.hashValue
-        }
-    }
+enum ActiveSheet: Hashable, Identifiable {
+   case web, mail
     
+    var id: Int {
+        return self.hashValue
+    }
+}
+
+struct Profile: View {
     @Binding var me: Attributes?
     
     @Environment(\.colorScheme) var colorScheme
@@ -26,6 +26,7 @@ struct Profile: View {
     @State var presentingModal = false
     @State private var activeSheet: ActiveSheet? = nil
     @State var link = ""
+    @State var links: [(link: String, sample: String)] = []
     
     var body: some View {
         VStack {
@@ -43,7 +44,7 @@ struct Profile: View {
                         }
                     }
                 }
-                    .frame(width: 50.0, height: 50.0)
+                    .frame(width: 300, height: 300)
             },content:  {
                 $0.image
                     .resizable()
@@ -54,52 +55,15 @@ struct Profile: View {
             Text(me!.full_name)
                 .font(.custom("Ubuntu-Bold", size: 34))
             HStack(spacing: 20) {
-                if me!.facebook_link.contains("facebook") {
-                    Image("facebook")
-                    .resizable()
-                    .renderingMode(.template)
-                    .frame(width: 50, height: 50)
-                        .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.facebook_link}
-                }
-                if me!.twitter_link.contains("twitter") {
-                Image("twitter")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.twitter_link}
-                }
-                if me!.linkedin_link.contains("linkedin") {
-                Image("linkedin")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.linkedin_link}
-                }
-                if me!.github_link.contains("github") {
-                Image("github")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: 50, height: 50)
-                    .onTapGesture { self.presentingModal = true; self.activeSheet = .web; self.link =  self.me!.github_link}
-                }
-                Image("email")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: 50, height: 50)
-                    .onTapGesture { self.activeSheet = .mail; self.presentingModal = true }
-                if me!.portfolio_link.contains(".") {
-                Image("portfolio")
-                .resizable()
-                .renderingMode(.template)
-                .frame(width: 50, height: 50)
-                    .onTapGesture {self.activeSheet = .web; self.link = self.me!.portfolio_link; self.presentingModal = true; print(self.link) }
+                ForEach(0..<links.count, id: \.self) { i in
+                    LinkLogos(linkTuple: self.links[i], presentingModal: self.$presentingModal, activeSheet: self.$activeSheet, link: self.$link)
                 }
             }
             .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
             .disabled(!MFMailComposeViewController.canSendMail())
             .sheet(item: $activeSheet) { item in
                 if item == .web {
-                    ModalView(presentedAsModal: self.$presentingModal, URL: self.$link)
+                    ModalView(presentingModal: self.$presentingModal, URL: self.$link)
                 }else if item == .mail {
                     MailView(result: self.$result, toRecipents: [self.me!.email])
                 }
@@ -118,9 +82,37 @@ struct Profile: View {
                     .font(.custom("Ubuntu-Light", size: 18))
                     .multilineTextAlignment(.center)
             }
-        }.onAppear{print(self.me as Any)}
+        }.onAppear{
+            self.links = [(link: self.me!.facebook_link, sample: "facebook.com/"), (link: self.me!.twitter_link, sample: "twitter.com/"), (link: self.me!.email, sample: "@"), (link: self.me!.portfolio_link, sample: "."), (link: self.me!.linkedin_link, sample: "linkedin.com/in/"), (link: self.me!.github_link, sample: "github.com/")]
+        }
     }
 }
+
+struct LinkLogos: View {
+    let linkTuple: (link: String, sample: String)
+    @Binding var presentingModal: Bool
+    @Binding var activeSheet: ActiveSheet?
+    @Binding var link: String
+    var body: some View {
+        VStack{
+            if linkTuple.link.contains(linkTuple.sample) {
+                Image(linkTuple.sample != "." && linkTuple.sample != "@" ? String(linkTuple.sample.split(separator: ".")[0]) : linkTuple.sample == "@" ? "email": "portfolio")
+                .resizable()
+                .renderingMode(.template)
+                .frame(width: 50, height: 50)
+                .onTapGesture {
+                    if self.linkTuple.sample != "@" {
+                        self.presentingModal = true; self.activeSheet = .web; self.link =  self.linkTuple.link
+                    } else {
+                        self.activeSheet = .mail; self.presentingModal = true
+                    }
+                }
+            }
+        }
+    }
+}
+    
+    
 
 struct Profile_Previews: PreviewProvider {
     @State static var me: Attributes? = Attributes(id: 1, full_name: "Viachaslau Pashaliuk", email: "v.pashaliuk", phone_number: "9293098458", location: "New York", linkedin_link: "", twitter_link: "", facebook_link: "", github_link: "", portfolio_link: "", bio: "Cheeeck", picture: "https://meetme-assets.s3.amazonaws.com/9293098458_profile_picture.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIELZLJXFXKRQZTVA%2F20200719%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200719T021702Z&X-Amz-Expires=900&X-Amz-SignedHeaders=host&X-Amz-Signature=6a821cfce8bbd974dd999cb8563a2d9857c6aa1f94bfbc4cabf7c7d8a395b1df")
@@ -131,15 +123,10 @@ struct Profile_Previews: PreviewProvider {
 
 
 struct ModalView: View {
-    @Binding var presentedAsModal: Bool
+    @Binding var presentingModal: Bool
     @Binding var URL: String
     var body: some View {
         VStack {
-            HStack{
-                Button("Back") { self.presentedAsModal = false }
-            }
-            .frame(maxHeight: 12.0)
-            .padding()
             DetailView(url: URL)
         }
     }

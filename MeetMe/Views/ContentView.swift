@@ -45,8 +45,7 @@ struct ContentView: View {
                 Text("Loading...")
                 Spacer()
             }
-            SegmentedControlView(selected: self.$selected)
-                .padding(1)
+            me != nil ? SegmentedControlView(selected: self.$selected).padding(1) : nil
         }.onAppear{self.updateProfile()}
     }
     
