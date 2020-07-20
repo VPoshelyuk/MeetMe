@@ -158,9 +158,6 @@ struct SignUpView: View {
                 self.me = profile
                 self.auth = ""
             }
-        } else if networkAgent.myProfile.count != 0{
-            me = networkAgent.myProfile[0]
-            auth = ""
         } else {
             Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { timer in
                 self.updateProfile()

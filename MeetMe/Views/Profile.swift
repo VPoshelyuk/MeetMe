@@ -48,6 +48,7 @@ struct Profile: View {
             },content:  {
                 $0.image
                     .resizable()
+                    .aspectRatio(contentMode: .fill) 
                     .frame(width: 250, height: 250)
                     .clipShape(Circle())
                     .overlay(Circle().strokeBorder(Color("textViewColor"), lineWidth: 3))

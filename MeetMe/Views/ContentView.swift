@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct ContentView: View {
     @ObservedObject var networkAgent: NetworkAgent
@@ -26,6 +27,66 @@ struct ContentView: View {
             }else if self.selected == 1 && me != nil{
                 Profile(me: $me)
             }else if self.selected == 2{
+                HStack{
+                    URLImage(URL(string: me!.picture)!, placeholder: {
+                        ProgressView($0) { progress in
+                            ZStack {
+                                if progress > 0.0 {
+                                    // The download has started. CircleProgressView displays the progress.
+                                    CircleProgressView(progress).stroke(lineWidth: 8.0)
+                                }
+                                else {
+                                    // The download has not yet started. CircleActivityView is animated activity indicator that suits this case.
+                                    CircleActivityView().stroke(lineWidth: 20.0)
+                                }
+                            }
+                        }
+                            .frame(width: 120, height: 120)
+                    },content:  {
+                        $0.image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
+                    }).padding(.trailing, 10)
+                    VStack {
+                        Text(me!.full_name)
+                            .font(.custom("Ubuntu-Bold", size: 28))
+                        Text(me!.email)
+                    }.padding(.leading, 10)
+                }
+                .frame(width: UIScreen.main.bounds.width - 50, height: 130)
+                .background(Color(.tertiaryLabel))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(Color("textViewColor"), lineWidth: 1.5))
+                .padding(.bottom)
+                Button(action: {
+                    print("yo")
+                }){
+                    Text("Dummy button")
+                    .foregroundColor(Color(.label))
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
+                }.padding(.bottom)
+                Button(action: {
+                    print("yo")
+                }){
+                    Text("Dummy button")
+                    .foregroundColor(Color(.label))
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
+                }.padding(.bottom)
+                Button(action: {
+                    print("yo")
+                }){
+                    Text("Dummy button")
+                    .foregroundColor(Color(.label))
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
+                }.padding(.bottom)
                 Spacer()
                 Button(action: {
                     self.me = nil
@@ -35,15 +96,12 @@ struct ContentView: View {
                     networkAgent.logOut()
                     self.auth = "main"
                 }){
-                    HStack {
-                        Text("Sign Out")
-                    }
+                    Text("Sign Out")
                     .foregroundColor(Color(.label))
                     .frame(width: UIScreen.main.bounds.width - 50, height: 50)
                     .background(Color("textViewColor"))
                     .clipShape(Capsule())
                 }
-                Spacer()
             }else {
                 Spacer()
                 Text("Loading...")
@@ -59,8 +117,6 @@ struct ContentView: View {
             if let profile = try? decoder.decode(Attributes.self, from: udMe) {
                 self.me = profile
             }
-        } else if networkAgent.myProfile.count != 0{
-            me = networkAgent.myProfile[0]
         } else {
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in
                 self.updateProfile()

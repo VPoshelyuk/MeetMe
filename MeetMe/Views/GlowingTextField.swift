@@ -14,9 +14,20 @@ struct GlowingTextField: View {
     @State private var editing = false
     
     var body: some View {
-        TextField(placeholder, text: $tField, onEditingChanged: {edit in self.editing = edit})
-        .frame(width: UIScreen.main.bounds.width - 50)
-        .textFieldStyle(CustomTextFieldStyle(focused: $editing))
+        if placeholder != "Password" {
+            TextField(placeholder, text: $tField, onEditingChanged: {edit in self.editing = edit})
+                .autocapitalization(placeholder != "Full Name" ? .none : .words)
+            .frame(width: UIScreen.main.bounds.width - 50)
+            .textFieldStyle(CustomTextFieldStyle(focused: $editing))
+        } else {
+            TextField(placeholder, text: $tField, onEditingChanged: {edit in self.editing = edit})
+            .frame(width: UIScreen.main.bounds.width - 50)
+            .textFieldStyle(CustomTextFieldStyle(focused: $editing))
+//            SecureField(placeholder, text: $tField, onCommit: {self.editing = false})
+//            .onTapGesture { self.editing = true }
+//            .frame(width: UIScreen.main.bounds.width - 50)
+//            .textFieldStyle(CustomTextFieldStyle(focused: $editing))
+        }
     }
 }
 

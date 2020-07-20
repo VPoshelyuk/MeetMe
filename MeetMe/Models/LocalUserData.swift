@@ -9,7 +9,7 @@
 import Foundation
 
 struct LocalUser: Decodable, Identifiable {
-    let id: String? = nil
+    var id: String? = nil
     let full_name: String
     let email: String
     let phone_number: String
