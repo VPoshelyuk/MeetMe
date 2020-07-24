@@ -131,12 +131,11 @@ struct ContentView: View {
             }
             me != nil ? SegmentedControlView(selected: self.$selected).padding(1) : nil
         }.onAppear{self.updateProfile()}
-//        .sheet(item: $updateType) { item in
-//            if item == .picture {
-//                let data = try? Data(contentsOf: URL(string: me!.picture)!)
-//                picToUpdate = UIImage(data: data!)
-//            }
-//        }
+        .sheet(item: $updateType) { item in
+            if item == .picture {
+                PictureView(pickedImage: Binding($picToUpdate)!, currentPage: nil, auth: nil, presentingUpdateView: $presentingUpdateView)
+            }
+        }
     }
     
     func updateProfile(){
@@ -144,6 +143,8 @@ struct ContentView: View {
             let decoder = JSONDecoder()
             if let profile = try? decoder.decode(Attributes.self, from: udMe) {
                 self.me = profile
+                let data = try? Data(contentsOf: URL(string: profile.picture)!)
+                picToUpdate = UIImage(data: data!)
             }
         } else {
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in

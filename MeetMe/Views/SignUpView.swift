@@ -43,7 +43,7 @@ struct SignUpView: View {
                         } else if currentPage == 3 {
                             SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
                         } else if currentPage == 4 {
-                            PictureView(pickedImage: $pickedImage, currentPage: $currentPage, auth: $auth)
+                            PictureView(pickedImage: $pickedImage, currentPage: $currentPage, auth: $auth, presentingUpdateView: nil)
                         } else if currentPage == 5 {
                             VStack {
                                 HStack {
