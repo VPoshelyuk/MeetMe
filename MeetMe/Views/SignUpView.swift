@@ -33,22 +33,6 @@ struct SignUpView: View {
     @Binding var auth: String
     @Binding var me: Attributes?
     
-//    var drag: some Gesture {
-//        DragGesture(minimumDistance: 300)
-//            .onChanged({gesture in
-//                if gesture.startLocation.x < CGFloat(100.0){
-//                    if self.currentPage == 1 {
-//                        self.auth = ""
-//                        print("auth", self.currentPage)
-//                    }else {
-//                        self.currentPage -= 1
-//                        print("current", self.currentPage)
-//                    }
-//                }
-//             }
-//        )
-//    }
-    
     var body: some View {
         ZStack {
             VStack(alignment: .center) {
@@ -59,39 +43,7 @@ struct SignUpView: View {
                         } else if currentPage == 3 {
                             SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
                         } else if currentPage == 4 {
-                            VStack {
-                                HStack {
-                                    Text("Back")
-                                        .onTapGesture {
-                                            if self.currentPage == 1 {
-                                                self.auth = "main"
-                                            } else {
-                                                self.currentPage -= 1
-                                            }
-                                        }
-                                    Spacer()
-                                }
-                                HStack{
-                                    Text("4. Photo")
-                                        .font(.custom("Ubuntu-Bold", size: 34))
-                                    Spacer()
-                                }.padding(.top, 50).padding(.bottom, 50)
-                                ImagePicker(pickedImage: $pickedImage).padding(.top, 50)
-                                Spacer()
-                                Button(action: {
-                                    self.currentPage += 1
-                                }){
-                                    HStack {
-                                        Text("Next")
-                                        Image(systemName: "arrow.right")
-                                    }
-                                    .foregroundColor(.white)
-                                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
-                                    .background(Color("textViewColor"))
-                                    .clipShape(Capsule())
-                                }
-                                .padding(.bottom)
-                            }
+                            PictureView(pickedImage: $pickedImage, currentPage: $currentPage, auth: $auth)
                         } else if currentPage == 5 {
                             VStack {
                                 HStack {

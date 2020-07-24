@@ -9,6 +9,14 @@
 import SwiftUI
 import URLImage
 
+enum UpdateType: Hashable, Identifiable {
+   case picture, basic, links, about
+    
+    var id: Int {
+        return self.hashValue
+    }
+}
+
 struct ContentView: View {
     @ObservedObject var networkAgent: NetworkAgent
     @Binding var auth: String
@@ -16,6 +24,10 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var me: Attributes?
+    
+    @State private var updateType: UpdateType? = nil
+    @State private var presentingUpdateView = false
+    @State var picToUpdate: UIImage?
 
     @State private var selected = 1
     var body: some View {
@@ -61,9 +73,10 @@ struct ContentView: View {
                 .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(Color("textViewColor"), lineWidth: 1.5))
                 .padding(.bottom)
                 Button(action: {
-                    print("yo")
+                    self.presentingUpdateView = true
+                    self.updateType = .picture
                 }){
-                    Text("Dummy button")
+                    Text("Edit Picture")
                     .foregroundColor(Color(.label))
                     .frame(width: UIScreen.main.bounds.width - 50, height: 50)
                     .clipShape(Capsule())
@@ -72,7 +85,7 @@ struct ContentView: View {
                 Button(action: {
                     print("yo")
                 }){
-                    Text("Dummy button")
+                    Text("Edit Basic Inforamtion")
                     .foregroundColor(Color(.label))
                     .frame(width: UIScreen.main.bounds.width - 50, height: 50)
                     .clipShape(Capsule())
@@ -81,7 +94,16 @@ struct ContentView: View {
                 Button(action: {
                     print("yo")
                 }){
-                    Text("Dummy button")
+                    Text("Edit Links")
+                    .foregroundColor(Color(.label))
+                    .frame(width: UIScreen.main.bounds.width - 50, height: 50)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
+                }.padding(.bottom)
+                Button(action: {
+                    print("yo")
+                }){
+                    Text("Edit About")
                     .foregroundColor(Color(.label))
                     .frame(width: UIScreen.main.bounds.width - 50, height: 50)
                     .clipShape(Capsule())
@@ -93,7 +115,7 @@ struct ContentView: View {
                     if let appDomain = Bundle.main.bundleIdentifier {
                         UserDefaults.standard.removePersistentDomain(forName: appDomain)
                     }
-                    networkAgent.logOut()
+                    self.networkAgent.logOut()
                     self.auth = "main"
                 }){
                     Text("Sign Out")
@@ -108,7 +130,13 @@ struct ContentView: View {
                 Spacer()
             }
             me != nil ? SegmentedControlView(selected: self.$selected).padding(1) : nil
-        }.onAppear{if self.me == nil {self.updateProfile()};print("here")}
+        }.onAppear{self.updateProfile()}
+//        .sheet(item: $updateType) { item in
+//            if item == .picture {
+//                let data = try? Data(contentsOf: URL(string: me!.picture)!)
+//                picToUpdate = UIImage(data: data!)
+//            }
+//        }
     }
     
     func updateProfile(){
@@ -124,6 +152,15 @@ struct ContentView: View {
         }
     }
 }
+
+//struct UpdateView: View {
+//    @Binding var presentingUpdateView: Bool
+//    @Binding var URL: String
+//    var body: some View {
+//        VStack {
+//        }
+//    }
+//}
 
 //struct ContentView_Previews: PreviewProvider {
 //    @State static var auth: String = "yo"
