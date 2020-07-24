@@ -136,8 +136,4 @@ class NetworkAgent: ObservableObject {
         })
         task.resume()
     }
-    
-    func logOut () {
-        myProfile = []
-    }
 }

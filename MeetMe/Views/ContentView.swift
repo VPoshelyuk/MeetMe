@@ -38,7 +38,7 @@ struct ContentView: View {
                 Spacer()
             }else if self.selected == 1 && me != nil{
                 Profile(me: $me)
-            }else if self.selected == 2{
+            }else if self.selected == 2 && me != nil{
                 HStack{
                     URLImage(URL(string: me!.picture)!, placeholder: {
                         ProgressView($0) { progress in
@@ -111,12 +111,11 @@ struct ContentView: View {
                 }.padding(.bottom)
                 Spacer()
                 Button(action: {
-                    self.me = nil
                     if let appDomain = Bundle.main.bundleIdentifier {
                         UserDefaults.standard.removePersistentDomain(forName: appDomain)
                     }
-                    self.networkAgent.logOut()
                     self.auth = "main"
+                    self.me = nil
                 }){
                     Text("Sign Out")
                     .foregroundColor(Color(.label))
@@ -133,7 +132,7 @@ struct ContentView: View {
         }.onAppear{self.updateProfile()}
         .sheet(item: $updateType) { item in
             if item == .picture {
-                PictureView(pickedImage: Binding($picToUpdate)!, currentPage: nil, auth: nil, presentingUpdateView: $presentingUpdateView)
+                PicturePage(pickedImage: Binding($picToUpdate)!, currentPage: nil, auth: nil, presentingUpdateView: $presentingUpdateView)
             }
         }
     }
