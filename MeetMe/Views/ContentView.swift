@@ -28,6 +28,8 @@ struct ContentView: View {
     @State private var updateType: UpdateType? = nil
     @State private var presentingUpdateView = false
     @State var picToUpdate: UIImage?
+    @State var basicInfo: [String]?
+    @State var linksInfo: [String]?
 
     @State private var selected = 1
     var body: some View {
@@ -86,7 +88,8 @@ struct ContentView: View {
                     .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
                 }.padding(.bottom)
                 Button(action: {
-                    print("yo")
+                    self.presentingUpdateView = true
+                    self.updateType = .basic
                 }){
                     Text("Edit Basic Inforamtion")
                     .foregroundColor(Color(.label))
@@ -95,7 +98,8 @@ struct ContentView: View {
                     .overlay(Capsule().strokeBorder(Color("textViewColor"), lineWidth: 1.5))
                 }.padding(.bottom)
                 Button(action: {
-                    print("yo")
+                    self.presentingUpdateView = true
+                    self.updateType = .links
                 }){
                     Text("Edit Links")
                     .foregroundColor(Color(.label))
@@ -136,6 +140,9 @@ struct ContentView: View {
         .sheet(item: $updateType) { item in
             if item == .picture {
                 PicturePage(pickedImage: Binding($picToUpdate)!, currentPage: nil, auth: nil, presentingUpdateView: $presentingUpdateView)
+            } else if item == .basic  {
+                SignUpPage(pageName: "Edit Basic Info", tfArray: Binding($basicInfo)!, placeholders: ["Full Name", "Location", "E-Mail", "Phone #"], currentPage: nil, auth: nil, value: nil, presentingUpdateView: $presentingUpdateView)
+//                ["LinkedIn", "Twitter", "Facebook", "GitHub", "Portfolio"]
             }
         }
     }
@@ -147,6 +154,8 @@ struct ContentView: View {
                 self.me = profile
                 let data = try? Data(contentsOf: URL(string: profile.picture)!)
                 picToUpdate = UIImage(data: data!)
+                basicInfo = [profile.full_name, profile.location, profile.email, profile.phone_number]
+                linksInfo = [profile.linkedin_link, profile.twitter_link, profile.facebook_link, profile.github_link, profile.portfolio_link]
             }
         } else {
             Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { timer in

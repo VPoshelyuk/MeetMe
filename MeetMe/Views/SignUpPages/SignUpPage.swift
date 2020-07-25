@@ -15,22 +15,37 @@ struct SignUpPage: View {
     @Binding var currentPage: Int
     @Binding var auth: String
     @Binding var value: CGFloat
+    @Binding var presentingUpdateView: Bool
+    
+    init(pageName: String, tfArray: Binding<[String]>, placeholders: [String], currentPage: Binding<Int>?, auth: Binding<String>?, value: Binding<CGFloat>?, presentingUpdateView: Binding<Bool>?) {
+        self.pageName = pageName
+        self._tfArray = tfArray
+        self.placeholders = placeholders
+        self._currentPage = currentPage ?? Binding.constant(-1)
+        self._auth = auth ?? Binding.constant("default")
+        self._value = value ?? Binding.constant(-1)
+        self._presentingUpdateView = presentingUpdateView ?? Binding.constant(false)
+    }
 
 
     var body: some View {
-        VStack {
+        VStack() {
             HStack {
                 Text("Back")
                     .onTapGesture {
-                        if self.currentPage == 1 {
-                            self.auth = "main"
+                        if self.currentPage != -1 {
+                            if self.currentPage == 1 {
+                                self.auth = "main"
+                            } else {
+                                self.currentPage -= 1
+                            }
                         } else {
-                            self.currentPage -= 1
+                            self.presentingUpdateView = false
                         }
                     }
                 Spacer()
-            }
-            Spacer()
+            }.padding(.bottom, self.value == -1 ? 30 : 0)
+            self.value == -1 ? nil : Spacer()
             HStack{
                 Text(pageName)
                     .font(.custom("Ubuntu-Bold", size: 34))
@@ -41,7 +56,11 @@ struct SignUpPage: View {
             }
             self.value == 0 ? Spacer() : nil
             Button(action: {
-                self.currentPage += 1
+                if self.currentPage != -1 {
+                    self.currentPage += 1
+                }else{
+                    self.presentingUpdateView = false
+                }
             }){
                 HStack {
                     Text("Next")
@@ -54,6 +73,7 @@ struct SignUpPage: View {
             }
             .disabled(!tfArray.allSatisfy{ $0 != ""})
             .padding(.bottom)
+            self.value == -1 ? Spacer() : nil
         }
     }
 }

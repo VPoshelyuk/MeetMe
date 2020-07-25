@@ -1,0 +1,38 @@
+{
+  "formatVersion" : 1,
+  "passTypeIdentifier" : "pass.com.viachaslaupashaliuk.meetme",
+  "serialNumber" : "jiweri3o1jjw",
+  "teamIdentifier" : "PNRKF3G2Z5",
+  "webServiceURL" : "https://example.com/passes/",
+  "authenticationToken" : "vxwxd7J8AlNNFPS8k0a0FfUFtq0ewzFdc",
+  "barcode" : {
+    "message" : "MeetMe://user/Apple",
+    "format" : "PKBarcodeFormatQR",
+    "messageEncoding" : "iso-8859-1"
+  },
+  "organizationName" : "MeetMe",
+  "description" : "My business card",
+  "foregroundColor" : "rgb(255, 255, 255)",
+  "backgroundColor" : "rgb(0, 0, 0)",
+  "eventTicket" : {
+    "primaryFields" : [
+      {
+        "key" : "name",
+        "label" : "NAME",
+        "value" : "Viachaslau Pashaliuk"
+      }
+    ],
+    "secondaryFields" : [
+      {
+        "key" : "location",
+        "label" : "LOCATION",
+        "value" : "New York, NY"
+      },
+      {
+        "key" : "phone_number",
+        "label" : "PHONE NUMBER",
+        "value" : "+1 (929)-309-8458"
+      }
+    ]
+  }
+}

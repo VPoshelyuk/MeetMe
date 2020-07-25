@@ -33,6 +33,8 @@ struct PicturePage: View {
                             } else {
                                 self.currentPage -= 1
                             }
+                        } else {
+                            self.presentingUpdateView = false
                         }
                     }
                 Spacer()

@@ -37,11 +37,11 @@ struct SignUpView: View {
         ZStack {
             VStack(alignment: .center) {
                     if currentPage == 1 {
-                            SignUpPage(pageName: "1. E-Mail and Password", tfArray: $firstPageFields, placeholders: firstPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                        SignUpPage(pageName: "1. E-Mail and Password", tfArray: $firstPageFields, placeholders: firstPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value, presentingUpdateView: nil)
                         } else if currentPage == 2 {
-                            SignUpPage(pageName: "2. Full Name, Phone Number and Location", tfArray: $secondPageFields, placeholders: secondPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                            SignUpPage(pageName: "2. Full Name, Phone Number and Location", tfArray: $secondPageFields, placeholders: secondPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value, presentingUpdateView: nil)
                         } else if currentPage == 3 {
-                            SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value)
+                            SignUpPage(pageName: "3. Social Media Links", tfArray: $thirdPageFields, placeholders: thirdPagePlaceholders, currentPage: $currentPage, auth: $auth, value: $value, presentingUpdateView: nil)
                         } else if currentPage == 4 {
                             PicturePage(pickedImage: $pickedImage, currentPage: $currentPage, auth: $auth, presentingUpdateView: nil)
                         } else if currentPage == 5 {
