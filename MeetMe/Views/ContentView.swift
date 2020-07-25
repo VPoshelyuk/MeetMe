@@ -138,11 +138,15 @@ struct ContentView: View {
             me != nil ? SegmentedControlView(selected: self.$selected).padding(1) : nil
         }.onAppear{self.updateProfile()}
         .sheet(item: $updateType) { item in
-            if item == .picture {
+            switch item {
+            case .picture:
                 PicturePage(pickedImage: Binding($picToUpdate)!, currentPage: nil, auth: nil, presentingUpdateView: $presentingUpdateView)
-            } else if item == .basic  {
+            case .basic:
                 SignUpPage(pageName: "Edit Basic Info", tfArray: Binding($basicInfo)!, placeholders: ["Full Name", "Location", "E-Mail", "Phone #"], currentPage: nil, auth: nil, value: nil, presentingUpdateView: $presentingUpdateView)
-//                ["LinkedIn", "Twitter", "Facebook", "GitHub", "Portfolio"]
+            case .links:
+                SignUpPage(pageName: "Edit Links", tfArray: Binding($linksInfo)!, placeholders: ["LinkedIn", "Twitter", "Facebook", "GitHub", "Portfolio"], currentPage: nil, auth: nil, value: nil, presentingUpdateView: $presentingUpdateView)
+            default:
+                Text("Something went wrong! Ooops...")
             }
         }
     }
