@@ -33,9 +33,12 @@ struct ContentView: View {
     var body: some View {
         VStack {
             if self.selected == 0 {
-                Spacer()
-                Text("Hi, asshole!")
-                Spacer()
+                if #available(iOS 14.0, *) {
+                    GridView()
+                } else {
+                    Text("iOS 14 is not available")
+                    // Fallback on earlier versions
+                }
             }else if self.selected == 1 && me != nil{
                 Profile(me: $me)
             }else if self.selected == 2 && me != nil{
