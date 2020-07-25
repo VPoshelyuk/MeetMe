@@ -15,6 +15,11 @@
 		E716F4F824BD18E400902AF5 /* GlowingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F4F724BD18E400902AF5 /* GlowingTextField.swift */; };
 		E72F6CD724CBA39A002C98CC /* AboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F6CD624CBA39A002C98CC /* AboutPage.swift */; };
 		E72F6CDA24CBB32E002C98CC /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F6CD924CBB32E002C98CC /* GridView.swift */; };
+		E72F6CE424CCD157002C98CC /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F6CDF24CCD156002C98CC /* logo@2x.png */; };
+		E72F6CE524CCD157002C98CC /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F6CE024CCD157002C98CC /* icon@2x.png */; };
+		E72F6CE624CCD157002C98CC /* pass.json in Resources */ = {isa = PBXBuildFile; fileRef = E72F6CE124CCD157002C98CC /* pass.json */; };
+		E72F6CE724CCD157002C98CC /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F6CE224CCD157002C98CC /* icon.png */; };
+		E72F6CE824CCD157002C98CC /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E72F6CE324CCD157002C98CC /* logo.png */; };
 		E7C0ECBB24BAC95B00B68EDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBA24BAC95B00B68EDD /* AppDelegate.swift */; };
 		E7C0ECBD24BAC95B00B68EDD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBC24BAC95B00B68EDD /* SceneDelegate.swift */; };
 		E7C0ECBF24BAC95B00B68EDD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C0ECBE24BAC95B00B68EDD /* ContentView.swift */; };
@@ -43,6 +48,11 @@
 		E716F4F724BD18E400902AF5 /* GlowingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowingTextField.swift; sourceTree = "<group>"; };
 		E72F6CD624CBA39A002C98CC /* AboutPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPage.swift; sourceTree = "<group>"; };
 		E72F6CD924CBB32E002C98CC /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		E72F6CDF24CCD156002C98CC /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		E72F6CE024CCD157002C98CC /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		E72F6CE124CCD157002C98CC /* pass.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pass.json; sourceTree = "<group>"; };
+		E72F6CE224CCD157002C98CC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		E72F6CE324CCD157002C98CC /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		E7C0ECB724BAC95B00B68EDD /* MeetMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeetMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C0ECBA24BAC95B00B68EDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7C0ECBC24BAC95B00B68EDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +107,18 @@
 			path = SignUpPages;
 			sourceTree = "<group>";
 		};
+		E72F6CDE24CCD038002C98CC /* BusinessCard.pass */ = {
+			isa = PBXGroup;
+			children = (
+				E72F6CE224CCD157002C98CC /* icon.png */,
+				E72F6CE024CCD157002C98CC /* icon@2x.png */,
+				E72F6CE324CCD157002C98CC /* logo.png */,
+				E72F6CDF24CCD156002C98CC /* logo@2x.png */,
+				E72F6CE124CCD157002C98CC /* pass.json */,
+			);
+			path = BusinessCard.pass;
+			sourceTree = "<group>";
+		};
 		E7C0ECAE24BAC95B00B68EDD = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +145,7 @@
 				E7C0ECC024BAC96000B68EDD /* Assets.xcassets */,
 				E7C0ECC524BAC96000B68EDD /* LaunchScreen.storyboard */,
 				E7C0ECC824BAC96000B68EDD /* Info.plist */,
+				E72F6CDE24CCD038002C98CC /* BusinessCard.pass */,
 				E7C0ECC224BAC96000B68EDD /* Preview Content */,
 			);
 			path = MeetMe;
@@ -220,8 +243,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7C0ECC724BAC96000B68EDD /* LaunchScreen.storyboard in Resources */,
+				E72F6CE724CCD157002C98CC /* icon.png in Resources */,
+				E72F6CE424CCD157002C98CC /* logo@2x.png in Resources */,
+				E72F6CE624CCD157002C98CC /* pass.json in Resources */,
+				E72F6CE824CCD157002C98CC /* logo.png in Resources */,
 				E7C0ECC424BAC96000B68EDD /* Preview Assets.xcassets in Resources */,
 				E7C0ECC124BAC96000B68EDD /* Assets.xcassets in Resources */,
+				E72F6CE524CCD157002C98CC /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
